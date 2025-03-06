@@ -101,5 +101,29 @@ body {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* Add these styles to your existing CSS */
+.access-card {
+    position: relative;
+    transition: all 0.3s ease;
+}
 
+.notice-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.notice-card-link:hover {
+    transform: translateY(-5px);
+}
+
+.access-card:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.fa-bullhorn {
+    color: var(--primary-blue);
+    margin-right: 10px;
+}
 /* Rest of CSS matches previous version */
