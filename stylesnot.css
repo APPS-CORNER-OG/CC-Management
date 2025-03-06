@@ -18,7 +18,6 @@
 body {
     background-color: var(--background);
     min-height: 100vh;
-    line-height: 1.6;
 }
 
 .container {
@@ -30,48 +29,11 @@ body {
 .hero-section {
     text-align: center;
     padding: 100px 20px;
-    background: linear-gradient(135deg, var(--primary-blue), #1157c5);
+    background: linear-gradient(135deg, var(--primary-blue), var(--hover-blue));
     color: white;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.notice-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-    margin: 40px auto;
-}
-
-.notice-post {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.notice-post:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
-
-.floating-btn {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: var(--primary-blue);
-    color: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    z-index: 1000;
+    border-radius: 0 0 25px 25px;
+    margin: 0 auto 40px;
+    width: 95%;
 }
 
 .notice-form {
@@ -82,7 +44,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.5);
-    z-index: 2000;
+    z-index: 1000;
     justify-content: center;
     align-items: center;
 }
@@ -93,43 +55,145 @@ body {
     padding: 2rem;
     width: 90%;
     max-width: 600px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     animation: formEntrance 0.3s ease;
 }
 
 @keyframes formEntrance {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
-/* Add these styles to your existing CSS */
-.access-card {
-    position: relative;
+
+.floating-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 65px;
+    height: 65px;
+    z-index: 1000;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    border: none;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
 }
 
-.notice-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+.floating-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    background: var(--hover-blue);
 }
 
-.notice-card-link:hover {
-    transform: translateY(-5px);
+
+.notice-post {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    position: relative;
 }
 
-.access-card:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+.action-buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.fa-bullhorn {
+.btn-edit {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.btn-delete {
+    background: var(--error-red);
+    color: white;
+}
+
+.progress-bar {
+    height: 4px;
+    background: #eee;
+    border-radius: 2px;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary-blue);
+    transition: width 0.3s ease;
+}
+
+
+
+.modern-input, .modern-textarea {
+    width: 100%;
+    padding: 1.2rem;
+    border: 2px solid var(--gray-light);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.9);
+}
+
+.modern-input:focus, .modern-textarea:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 4px 15px rgba(25, 119, 242, 0.15);
+    outline: none;
+}
+
+.floating-label {
+    position: absolute;
+    left: 1rem;
+    top: 1.2rem;
+    background: white;
+    padding: 0 0.5rem;
+    color: var(--gray-dark);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.modern-input:focus + .floating-label,
+.modern-input:not(:placeholder-shown) + .floating-label {
+    transform: translateY(-1.8rem) scale(0.9);
     color: var(--primary-blue);
-    margin-right: 10px;
+    font-weight: 600;
 }
 
-.access-card {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
-/* Rest of CSS matches previous version */
+
+.btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    border: 2px solid var(--primary-blue);
+}
+
+.btn-primary:hover {
+    background: var(--hover-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(25, 119, 242, 0.3);
+}
