@@ -1,97 +1,147 @@
-let notices = JSON.parse(localStorage.getItem('notices')) || [];
-let editMode = false;
-let currentNoticeId = null;
-
 document.addEventListener('DOMContentLoaded', () => {
-    displayNotices();
-    setupEventListeners();
-});
+    // DOM Elements
+    const newNoticeBtn = document.getElementById('newNoticeBtn');
+    const noticeForm = document.getElementById('noticeForm');
+    const closeBtn = document.querySelector('.close-btn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const form = document.getElementById('noticeFormElement');
+    const noticeContainer = document.getElementById('noticeContainer');
+    const textarea = document.getElementById('noticeContent');
+    const charCount = document.getElementById('charCount');
 
-function setupEventListeners() {
-    document.getElementById('newNoticeBtn').addEventListener('click', showNoticeForm);
-    document.getElementById('noticeForm').addEventListener('submit', saveNotice);
-    document.querySelector('.close-btn').addEventListener('click', hideNoticeForm);
-    document.getElementById('noticeContent').addEventListener('input', updateCharCount);
-}
+    // State
+    let isEditing = false;
+    let currentEditId = null;
 
-function showNoticeForm() {
-    document.getElementById('noticeForm').style.display = 'flex';
-}
+    // Event Listeners
+    newNoticeBtn.addEventListener('click', showForm);
+    closeBtn.addEventListener('click', hideForm);
+    cancelBtn.addEventListener('click', hideForm);
+    form.addEventListener('submit', handleSubmit);
+    textarea.addEventListener('input', updateCharCount);
 
-function hideNoticeForm() {
-    document.getElementById('noticeForm').style.display = 'none';
-    resetForm();
-}
+    // Initialize
+    loadNotices();
 
-function updateCharCount() {
-    document.getElementById('charCount').textContent = 
-        document.getElementById('noticeContent').value.length;
-}
+    function showForm() {
+        noticeForm.style.display = 'flex';
+    }
 
-function saveNotice(e) {
-    e.preventDefault();
-    const title = document.getElementById('noticeTitle').value;
-    const content = document.getElementById('noticeContent').value;
+    function hideForm() {
+        noticeForm.style.display = 'none';
+        resetForm();
+    }
 
-    if (title && content) {
+    function updateCharCount() {
+        const length = textarea.value.length;
+        charCount.textContent = length;
+        const progress = document.querySelector('.progress-fill');
+        progress.style.width = `${(length/300)*100}%`;
+        progress.style.backgroundColor = length >= 280 ? 'var(--error-red)' : 'var(--primary-blue)';
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const title = document.getElementById('noticeTitle').value.trim();
+        const content = document.getElementById('noticeContent').value.trim();
+
+        if (!title || !content) {
+            alert('Please fill in all fields');
+            return;
+        }
+
         const notice = {
             id: Date.now(),
             title,
             content,
-            date: new Date().toLocaleDateString()
+            date: new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            })
         };
 
-        if (editMode) {
-            const index = notices.findIndex(n => n.id === currentNoticeId);
-            notices[index] = notice;
-            editMode = false;
+        if (isEditing) {
+            updateNotice(currentEditId, notice);
         } else {
-            notices.unshift(notice);
+            createNotice(notice);
         }
 
-        localStorage.setItem('notices', JSON.stringify(notices));
-        displayNotices();
-        hideNoticeForm();
+        hideForm();
     }
-}
 
-function displayNotices() {
-    const container = document.getElementById('noticeContainer');
-    container.innerHTML = notices.map(notice => `
-        <div class="notice-post">
+    function createNotice(notice) {
+        const element = document.createElement('div');
+        element.className = 'notice-post';
+        element.dataset.id = notice.id;
+        element.innerHTML = `
+            <div class="action-buttons">
+                <button class="btn-action btn-edit"><i class="fas fa-edit"></i></button>
+                <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+            </div>
             <h3>${notice.title}</h3>
             <p>${notice.content}</p>
-            <div class="form-footer">
-                <small>Published: ${notice.date}</small>
-                <div>
-                    <button onclick="editNotice(${notice.id})" class="btn btn-primary">Edit</button>
-                    <button onclick="deleteNotice(${notice.id})" class="btn btn-secondary">Remove</button>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
+            <div class="post-date">Posted: ${notice.date}</div>
+        `;
 
-function editNotice(id) {
-    const notice = notices.find(n => n.id === id);
-    document.getElementById('noticeTitle').value = notice.title;
-    document.getElementById('noticeContent').value = notice.content;
-    document.getElementById('formTitle').textContent = 'Edit Notice';
-    currentNoticeId = id;
-    editMode = true;
-    showNoticeForm();
-}
+        element.querySelector('.btn-edit').addEventListener('click', () => editNotice(notice.id));
+        element.querySelector('.btn-delete').addEventListener('click', () => deleteNotice(notice.id));
+        
+        noticeContainer.prepend(element);
+        saveNotices();
+    }
 
-function deleteNotice(id) {
-    notices = notices.filter(n => n.id !== id);
-    localStorage.setItem('notices', JSON.stringify(notices));
-    displayNotices();
-}
+    function editNotice(id) {
+        const notice = document.querySelector(`[data-id="${id}"]`);
+        document.getElementById('noticeTitle').value = notice.querySelector('h3').textContent;
+        document.getElementById('noticeContent').value = notice.querySelector('p').textContent;
+        currentEditId = id;
+        isEditing = true;
+        document.getElementById('formTitle').textContent = 'Edit Notice';
+        showForm();
+    }
 
-function resetForm() {
-    document.getElementById('noticeForm').reset();
-    document.getElementById('formTitle').textContent = 'New Notice';
-    editMode = false;
-    currentNoticeId = null;
-    updateCharCount();
-}
+    function updateNotice(id, newData) {
+        const notice = document.querySelector(`[data-id="${id}"]`);
+        notice.querySelector('h3').textContent = newData.title;
+        notice.querySelector('p').textContent = newData.content;
+        notice.querySelector('.post-date').textContent = `Updated: ${newData.date}`;
+        saveNotices();
+        isEditing = false;
+        currentEditId = null;
+    }
+
+    function deleteNotice(id) {
+        if (confirm('Delete this notice?')) {
+            document.querySelector(`[data-id="${id}"]`).remove();
+            saveNotices();
+        }
+    }
+
+    function resetForm() {
+        form.reset();
+        charCount.textContent = '0';
+        document.querySelector('.progress-fill').style.width = '0%';
+        isEditing = false;
+        currentEditId = null;
+        document.getElementById('formTitle').textContent = 'New Notice';
+    }
+
+    function saveNotices() {
+        const notices = Array.from(noticeContainer.children).map(notice => ({
+            id: notice.dataset.id,
+            title: notice.querySelector('h3').textContent,
+            content: notice.querySelector('p').textContent,
+            date: notice.querySelector('.post-date').textContent.replace(/(Posted|Updated): /, '')
+        }));
+        localStorage.setItem('notices', JSON.stringify(notices));
+    }
+
+    function loadNotices() {
+        const notices = JSON.parse(localStorage.getItem('notices')) || [];
+        notices.forEach(notice => {
+            notice.id = notice.id || Date.now();
+            createNotice(notice);
+        });
+    }
+});
