@@ -26,26 +26,40 @@
     <div id="noticeForm" class="notice-form">
         <div class="notice-form-container">
             <div class="form-header">
-                <h2><span id="formTitle">New Notice</span></h2>
+                <div class="form-header-content">
+                    <h2><span id="formTitle">New Announcement</span></h2>
+                    <p class="form-subtitle">Share important information with the community</p>
+                </div>
                 <button type="button" class="close-btn">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <form id="noticeForm">
+            <form id="noticeFormElement">
                 <div class="form-group">
-                    <input type="text" id="noticeTitle" class="modern-input" placeholder=" " required>
-                    <label for="noticeTitle">Notice Title</label>
+                    <div class="input-container">
+                        <input type="text" id="noticeTitle" class="modern-input" placeholder=" " required>
+                        <label for="noticeTitle" class="floating-label">Announcement Title</label>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <textarea id="noticeContent" class="modern-textarea" placeholder=" " maxlength="300" required></textarea>
-                    <label for="noticeContent">Notice Content</label>
-                    <div class="form-footer">
-                        <div class="char-count"><span id="charCount">0</span>/300</div>
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-secondary" onclick="hideNoticeForm()">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Publish Notice</button>
+                    <div class="input-container">
+                        <textarea id="noticeContent" class="modern-textarea" placeholder=" " maxlength="300" required></textarea>
+                        <label for="noticeContent" class="floating-label">Announcement Details</label>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="form-footer">
+                            <div class="char-count"><span id="charCount">0</span>/300</div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-danger" id="cancelBtn">
+                                    <i class="fas fa-times"></i> Discard
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Publish
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,6 +67,6 @@
         </div>
     </div>
 
-    <script src="scripstsnot.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
