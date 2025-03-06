@@ -126,4 +126,10 @@ body {
     color: var(--primary-blue);
     margin-right: 10px;
 }
+
+.access-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
 /* Rest of CSS matches previous version */
