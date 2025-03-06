@@ -3,56 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onneshon Notice Board</title>
-    <link rel="stylesheet" href="stylesnot.css">
+    <title>Onneshon Coaching Center</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="hero-section">
-        <div class="hero-content">
-            <h1>Onneshon Notice Board</h1>
-            <p>Official Announcements and Updates</p>
-        </div>
-        <button id="newNoticeBtn" class="floating-btn">
-            <i class="fas fa-plus"></i>
-        </button>
+        <h1>Welcome to Onneshon</h1>
+        <p>Your Gateway to Academic Excellence</p>
     </div>
 
     <div class="container">
-        <div id="noticeContainer" class="notice-container"></div>
-    </div>
-
-    <!-- Notice Form -->
-    <div id="noticeForm" class="notice-form">
-        <div class="notice-form-container">
-            <div class="form-header">
-                <h2><span id="formTitle">New Notice</span></h2>
-                <button type="button" class="close-btn">
-                    <i class="fas fa-times"></i>
-                </button>
+        <div class="quick-access">
+            <div class="access-card">
+                <h3><i class="fas fa-book-open"></i> Courses</h3>
+                <p>Access your study materials and resources</p>
             </div>
-            
-            <form id="noticeForm">
-                <div class="form-group">
-                    <input type="text" id="noticeTitle" class="modern-input" placeholder=" " required>
-                    <label for="noticeTitle">Notice Title</label>
-                </div>
 
-                <div class="form-group">
-                    <textarea id="noticeContent" class="modern-textarea" placeholder=" " maxlength="300" required></textarea>
-                    <label for="noticeContent">Notice Content</label>
-                    <div class="form-footer">
-                        <div class="char-count"><span id="charCount">0</span>/300</div>
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-secondary" onclick="hideNoticeForm()">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Publish Notice</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <div class="access-card">
+                <h3><i class="fas fa-calendar-alt"></i> Schedule</h3>
+                <p>View upcoming classes and events</p>
+            </div>
+
+            <div class="access-card">
+                <h3><i class="fas fa-chart-line"></i> Progress</h3>
+                <p>Check your academic performance</p>
+            </div>
+            <a href="notice.html" class="access-card notice-card-link">
+                <h3><i class="fas fa-bullhorn"></i> Notices</h3>
+                <p>View important announcements and updates</p>
+            </a>
         </div>
     </div>
 
-    <script src="scripstsnot.js"></script>
+    <!-- Floating Navigation -->
+    <div class="icon-nav">
+        <div class="nav-icon" onclick="location.href='dashboard.html'">
+            <i class="fas fa-home"></i>
+        </div>
+        <div class="nav-icon" onclick="location.href='profile.html'">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="nav-icon" onclick="location.href='messages.html'">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="nav-icon" onclick="location.href='settings.html'">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
