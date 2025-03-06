@@ -44,7 +44,11 @@ body {
     transition: transform 0.3s ease;
     text-align: center;
 }
-
+.access-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
 .access-card:hover {
     transform: translateY(-5px);
 }
